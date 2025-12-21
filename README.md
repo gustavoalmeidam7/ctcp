@@ -1,4 +1,4 @@
-# Servidor básico TCP em C
+# Servidor básico HTTP em C
 
-Base para um servidor básico TCP escrito em C usando sys/socket (por enquanto apenas linux)
+Base para um servidor básico HTTP escrito em C usando sys/socket
 
