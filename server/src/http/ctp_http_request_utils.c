@@ -49,7 +49,7 @@ int ctp_get_protocol(char *protocolStr) {
   free(protocolCmp);
 }
 
-int ctp_get_header(CTP_HTTP_REQUEST_HEADERS *headers, const char* key, char **value){
+int ctp_get_header(CTP_HTTP_REQUEST_HEADERS *headers, char* key, char **value){
   char *kkey = strdup(key);
   to_lower(kkey);
 

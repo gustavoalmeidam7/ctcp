@@ -4,6 +4,6 @@
 #include "ctp_program_args.h"
 #include "unistd.h"
 
-const void ctp_parse_args(int argc, char **argv);
+void ctp_parse_args(int argc, char **argv);
 
 #endif

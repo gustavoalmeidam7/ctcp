@@ -59,7 +59,7 @@ CTP_HTTP_REQUEST *ctp_handle_http_request(int clientfd) {
   return rq;
 }
 
-void ctp_send_response(const char *fileLocation, int clientfd, CTP_HTTP_REQUEST *rq) {
+void ctp_send_response(char *fileLocation, int clientfd, CTP_HTTP_REQUEST *rq) {
   int fileSize = 0;
   char *fileBuffer = NULL;
   char *header = NULL;

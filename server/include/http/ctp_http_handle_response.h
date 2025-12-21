@@ -8,9 +8,9 @@
 
 extern unsigned int CTP_RESPONSE_ERRORNO;
 
-char *generate_header(const char *protocol, const char *statusCode, const char *contentType);
+char *generate_header(char *protocol, char *statusCode, char *contentType);
 
-int ctp_read_file(char **file, int *fileSize, const char *fileLocation);
+int ctp_read_file(char **file, int *fileSize, char *fileLocation);
 
 #endif
 

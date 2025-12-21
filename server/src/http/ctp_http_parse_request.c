@@ -78,7 +78,7 @@ int parse_headers(CTP_HTTP_REQUEST_HEADERS *headers, char *request) {
   return 0;
 }
 
-const void ctp_parse_request(const char *request, int requestSize, CTP_HTTP_REQUEST *rq) {
+void ctp_parse_request(char *request, int requestSize, CTP_HTTP_REQUEST *rq) {
   char *originalRequest = strdup(request);
 
   parse_mrp(rq, originalRequest);

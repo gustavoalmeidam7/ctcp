@@ -9,7 +9,7 @@ unsigned int handle_error(int errorCode, const char *message) {
   return errorCode;
 }
 
-char *generate_header(const char *protocol, const char *statusCode, const char *contentType) {
+char *generate_header(char *protocol, char *statusCode, char *contentType) {
   char *headerBuffer;
   int sizeHeaderBuffer;
 
@@ -27,7 +27,7 @@ char *generate_header(const char *protocol, const char *statusCode, const char *
 }
 
 
-int ctp_read_file(char **file, int *fileSize, const char *fileLocation) {
+int ctp_read_file(char **file, int *fileSize, char *fileLocation) {
   FILE *fptr = NULL;
   size_t read_bytes = 0;
   

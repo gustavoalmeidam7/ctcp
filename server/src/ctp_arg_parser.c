@@ -5,7 +5,7 @@
 
 PCTP_HTTP_SERVER_ARGS programArgs;
 
-const void ctp_parse_args(int argc, char **argv) {
+void ctp_parse_args(int argc, char **argv) {
     int opt;
     int option_index = 0;
 
