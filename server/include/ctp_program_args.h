@@ -17,9 +17,9 @@ typedef struct CTP_HTTP_SERVER_ARGS{
 extern CTP_HTTP_SERVER_ARGS *programArgs;
 
 static struct option long_options[] = {
-    {"host", required_argument, 0, 'H'},
+    {"host", required_argument, 0, 'h'},
     {"port", required_argument, 0, 'p'},
-    {"path", required_argument, 0, 'h'},
+    {"path", required_argument, 0, 'P'},
     {0, 0, 0, 0}
 };
 

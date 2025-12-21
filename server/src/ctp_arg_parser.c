@@ -1,4 +1,7 @@
 #include "ctp_arg_parser.h"
+#include <bits/getopt_core.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 PCTP_HTTP_SERVER_ARGS programArgs;
 
@@ -7,7 +10,7 @@ const void ctp_parse_args(int argc, char **argv) {
     int option_index = 0;
 
     if ((programArgs = malloc(sizeof(CTP_HTTP_SERVER_ARGS))) == NULL) {
-        fprintf(stderr, "Erro ao alocar memoria, trocar mensagem de erro ctp_arg_parser.c:10");
+        fprintf(stderr, "Error alocating resources");
         exit(-1);
     }
 
@@ -15,26 +18,31 @@ const void ctp_parse_args(int argc, char **argv) {
     programArgs->path = CTP_DEFAULT_HTTP_SERVER_PATH;
     programArgs->port = CTP_DEFAULT_HTTP_SERVER_PORT;
 
-    while ((opt = getopt_long_only(argc, argv,
-                              "Hph",    
+    while ((opt = getopt_long(argc, argv,
+                              "hpP",    
                               long_options,
                               &option_index)) != -1) {
 
         switch (opt) {
-            case 'H':
+            case 'h':
                 programArgs->host = strdup(optarg);
                 break;
 
             case 'p':
-                programArgs->port = strtol(optarg, NULL, 5);
+                if (atoi(optarg) < 1) {
+                    fprintf(stderr, "Invalid port: %s (must be in rage of 1 and 65535)\n", optarg);
+                    exit(1);
+                }
+                
+                programArgs->port = atoi(optarg);
                 break;
-
-            case 'h':
+        
+            case 'P':
                 programArgs->path = strdup(optarg);
                 break;
 
             default:
-                printf("Option not found!");
+                printf("Option not found!\n");
                 exit(-1);
         }
     }
