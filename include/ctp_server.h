@@ -3,6 +3,8 @@
 
 #include "ctp_base_includes.h"
 
+#include "stdbool.h"
+
 typedef struct CTP_SERVER {
   int socketfd;
   
@@ -17,7 +19,7 @@ typedef struct CTP_SERVER {
 extern int CTP_ERRORNO;
 
 // Create socket with setsockopt reuse address 
-CTP_SERVER *create_server(int domain, int type, int protocol, char *address, int port);
+CTP_SERVER *create_server(bool ipv6, char *address, int port);
 
 #endif
 

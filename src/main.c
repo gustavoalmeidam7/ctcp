@@ -3,7 +3,6 @@
 #include "ctp_server.h"
 
 #include <stdio.h>
-#include <string.h>
 
 extern int CTP_ERRORNO;
 
