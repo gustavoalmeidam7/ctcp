@@ -1,7 +1,7 @@
-#include "http/ctp_http_parse_request.h"
-#include "http/ctp_http_request_utils.h"
+#include "http/htc_http_parse_request.h"
+#include "http/htc_http_request_utils.h"
 
-int parse_mrp(CTP_HTTP_REQUEST *rq, char *request) {
+int parse_mrp(HTC_HTTP_REQUEST *rq, char *request) {
   char *requestBfr = strdup(request);
   char *mrpBfr;
   char *restRequest = requestBfr;
@@ -19,9 +19,9 @@ int parse_mrp(CTP_HTTP_REQUEST *rq, char *request) {
     return -1;
   }
 
-  rq->method   = ctp_get_method(method);
+  rq->method   = htc_get_method(method);
   rq->route    = strdup(route);
-  rq->protocol = ctp_get_protocol(protocol);
+  rq->protocol = htc_get_protocol(protocol);
 
   printf("\nMethod: %d : '%s'\nRoute: '%s'\nProtocol: %d : '%s'\n", rq->method, method, rq->route, rq->protocol, protocol);
 
@@ -31,7 +31,7 @@ int parse_mrp(CTP_HTTP_REQUEST *rq, char *request) {
   return 0;
 }
 
-int parse_headers(CTP_HTTP_REQUEST_HEADERS *headers, char *request) {
+int parse_headers(HTC_HTTP_REQUEST_HEADERS *headers, char *request) {
   char *requestBfr = strdup(request);
 
   int maxHeadersSize = 8192; //8kb
@@ -78,7 +78,7 @@ int parse_headers(CTP_HTTP_REQUEST_HEADERS *headers, char *request) {
   return 0;
 }
 
-void ctp_parse_request(char *request, int requestSize, CTP_HTTP_REQUEST *rq) {
+void htc_parse_request(char *request, int requestSize, HTC_HTTP_REQUEST *rq) {
   char *originalRequest = strdup(request);
 
   parse_mrp(rq, originalRequest);

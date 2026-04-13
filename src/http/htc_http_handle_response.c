@@ -1,10 +1,10 @@
-#include "http/ctp_http_handle_response.h"
+#include "http/htc_http_handle_response.h"
 
-extern int CTP_ERRORNO;
-unsigned int CTP_RESPONSE_ERRORNO = 0;
+extern int HTC_ERRORNO;
+unsigned int HTC_RESPONSE_ERRORNO = 0;
 
 unsigned int handle_error(int errorCode, const char *message) {
-  CTP_RESPONSE_ERRORNO = errorCode;
+  HTC_RESPONSE_ERRORNO = errorCode;
   fprintf(stderr, "%s", message);
   return errorCode;
 }
@@ -27,7 +27,7 @@ char *generate_header(char *protocol, char *statusCode, char *contentType) {
 }
 
 
-int ctp_read_file(char **file, int *fileSize, char *fileLocation) {
+int htc_read_file(char **file, int *fileSize, char *fileLocation) {
   FILE *fptr = NULL;
   size_t read_bytes = 0;
   
@@ -44,7 +44,7 @@ int ctp_read_file(char **file, int *fileSize, char *fileLocation) {
   fseek(fptr, 0L, SEEK_END);
 
   if ((*fileSize = (int) ftell(fptr)) < 0L) {
-    handle_error(CTP_ERRORNO_GET_FILE_SIZE, "Error getting file size\n");
+    handle_error(HTC_ERRORNO_GET_FILE_SIZE, "Error getting file size\n");
     return -1;
   }
 

@@ -1,6 +1,7 @@
-#include "http/ctp_http_request_utils.h"
+#include "http/htc_http_request_utils.h"
+#include <strings.h>
 
-void ctp_get_mime(char *file, char **output) {
+void htc_get_mime(char *file, char **output) {
   if (strstr(file, ".") == NULL) {
     *output = strdup("text/html");
     return;
@@ -19,45 +20,41 @@ void ctp_get_mime(char *file, char **output) {
   }
 }
 
-int ctp_get_method(char *methodStr) {
+int htc_get_method(char *methodStr) {
   char *methodCmp = strdup(methodStr);
-  to_lower(methodStr);
-
-  if (strcmp(methodCmp, "get") == 0){
-    return CTP_HTTP_METHOD_GET;
-  } else if (strcmp(methodCmp, "post") == 0){
-    return CTP_HTTP_METHOD_POST;
-  } else if (strcmp(methodCmp, "options") == 0){
-    return CTP_HTTP_METHOD_OPTIONS;
+  
+  if (strcasecmp(methodCmp, "get") == 0){
+    return HTC_HTTP_METHOD_GET;
+  } else if (strcasecmp(methodCmp, "post") == 0){
+    return HTC_HTTP_METHOD_POST;
+  } else if (strcasecmp(methodCmp, "options") == 0){
+    return HTC_HTTP_METHOD_OPTIONS;
   } else {
-    return CTP_HTTP_METHOD_UNKNOWN;
+    return HTC_HTTP_METHOD_UNKNOWN;
   }
 
   free(methodCmp);
 }
 
-int ctp_get_protocol(char *protocolStr) {
+int htc_get_protocol(char *protocolStr) {
   char *protocolCmp = strdup(protocolStr);
-  to_lower(protocolCmp);
 
-  if (strcmp(protocolCmp, "http/1.1") == 0){
-    return CTP_HTTP_PROTOCOL_HTTP_1_1;
+  if (strcasecmp(protocolCmp, "http/1.1") == 0){
+    return HTC_HTTP_PROTOCOL_HTTP_1_1;
   } else {
-    return CTP_HTTP_PROTOCOL_UNDEFINED;
+    return HTC_HTTP_PROTOCOL_UNDEFINED;
   }
 
   free(protocolCmp);
 }
 
-int ctp_get_header(CTP_HTTP_REQUEST_HEADERS *headers, char* key, char **value){
+int htc_get_header(HTC_HTTP_REQUEST_HEADERS *headers, char* key, char **value){
   char *kkey = strdup(key);
-  to_lower(kkey);
 
   for(int i = 0; i < headers->headersSize;i++) {
     char *toCompare = strdup(headers->headers[i].key);
-    to_lower(toCompare);
 
-    if (strcmp(kkey, toCompare) == 0) {
+    if (strcasecmp(kkey, toCompare) == 0) {
       *value = strdup(headers->headers[i].value);
       free(kkey);
       free(toCompare);
