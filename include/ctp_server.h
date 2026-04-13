@@ -3,7 +3,12 @@
 
 #include "ctp_base_includes.h"
 
-#include "stdbool.h"
+#include <stdio.h>
+
+typedef union CTP_SERVADDR_UNION {
+  struct sockaddr_in6 *ipv6;
+  struct sockaddr_in  *ipv4;
+} CTP_SERVADDR_UNION;
 
 typedef struct CTP_SERVER {
   int socketfd;
@@ -12,7 +17,8 @@ typedef struct CTP_SERVER {
   int protocol;
   int type;
 
-  struct sockaddr_in *servaddr;
+  CTP_SERVADDR_UNION servaddr;
+  bool isIpv6;
   socklen_t servaddrlen;
 }CTP_SERVER, *PCTP_SERVER;
 

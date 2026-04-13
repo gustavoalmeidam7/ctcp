@@ -1,31 +1,49 @@
 #include "ctp_arg_parser.h"
-#include <bits/getopt_core.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "ctp_program_args.h"
 
-PCTP_HTTP_SERVER_ARGS programArgs;
-
-void ctp_parse_args(int argc, char **argv) {
+void ctp_parse_args(int argc, char **argv, CTP_HTTP_SERVER_ARGS **programArgs) {
     int opt;
     int option_index = 0;
-
-    if ((programArgs = malloc(sizeof(CTP_HTTP_SERVER_ARGS))) == NULL) {
+    const char *option_name;
+        
+    *programArgs = malloc(sizeof(CTP_HTTP_SERVER_ARGS));
+    
+    if (!(*programArgs)) {
         fprintf(stderr, "Error alocating resources");
         exit(-1);
     }
 
-    programArgs->host = CTP_DEFAULT_HTTP_SERVER_HOST;
-    programArgs->path = CTP_DEFAULT_HTTP_SERVER_PATH;
-    programArgs->port = CTP_DEFAULT_HTTP_SERVER_PORT;
+    (*programArgs)->host = CTP_DEFAULT_HTTP_SERVER_HOST;
+    (*programArgs)->path = CTP_DEFAULT_HTTP_SERVER_PATH;
+    (*programArgs)->port = CTP_DEFAULT_HTTP_SERVER_PORT;
+    (*programArgs)->ipv6 = CTP_DEFAULT_HTTP_SERVER_IPV6;
 
     while ((opt = getopt_long(argc, argv,
-                              "hpP",    
+                              "hp:P:",
                               long_options,
                               &option_index)) != -1) {
 
         switch (opt) {
+            case 0:
+                option_name = long_options[option_index].name;
+
+                if (strcmp(option_name, "host") == 0) {
+                    (*programArgs)->host = strdup(optarg);
+                } 
+                else if (strcmp(option_name, "ipv6") == 0) {
+                   (*programArgs)->ipv6 = true;
+                }
+                else {
+                    printf("Option not found! try --help\n");
+                    exit(-1);
+                }
+                break;
             case 'h':
-                programArgs->host = strdup(optarg);
+                printf(
+                   "-p port\n"
+                   "-P path\n"
+                   "-host host\n"
+                   "-ipv6 sets to ipv6\n");
                 break;
 
             case 'p':
@@ -34,15 +52,15 @@ void ctp_parse_args(int argc, char **argv) {
                     exit(1);
                 }
                 
-                programArgs->port = atoi(optarg);
+                (*programArgs)->port = atoi(optarg);
                 break;
         
             case 'P':
-                programArgs->path = strdup(optarg);
+                (*programArgs)->path = strdup(optarg);
                 break;
 
             default:
-                printf("Option not found!\n");
+                printf("Option not found! try --help\n");
                 exit(-1);
         }
     }

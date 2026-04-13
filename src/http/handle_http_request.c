@@ -21,8 +21,12 @@ void ctp_listen_requests(CTP_SERVER *server_socket) {
   int clientfd;
   pid_t cpid;
   CTP_HTTP_REQUEST *rq;
-  
-  if((clientfd = accept(server_socket->socketfd, (struct sockaddr*) server_socket->servaddr, &server_socket->servaddrlen)) < 0) {
+
+  #ifdef CTP_IPV6
+    if((clientfd = accept(server_socket->socketfd, (struct sockaddr6*) server_socket->servaddr.ipv6, &server_socket->servaddrlen)) < 0) {
+  #else
+    if((clientfd = accept(server_socket->socketfd, (struct sockaddr*) server_socket->servaddr.ipv4, &server_socket->servaddrlen)) < 0) {
+  #endif
     close(clientfd);
     handle_error(CTP_ERRORNO_SOCKET, "Error accepting client connection\n");
   }
