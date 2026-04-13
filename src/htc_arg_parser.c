@@ -1,22 +1,22 @@
-#include "ctp_arg_parser.h"
-#include "ctp_program_args.h"
+#include "htc_arg_parser.h"
+#include "htc_program_args.h"
 
-void ctp_parse_args(int argc, char **argv, CTP_HTTP_SERVER_ARGS **programArgs) {
+void htc_parse_args(int argc, char **argv, HTC_HTTP_SERVER_ARGS **programArgs) {
     int opt;
     int option_index = 0;
     const char *option_name;
         
-    *programArgs = malloc(sizeof(CTP_HTTP_SERVER_ARGS));
+    *programArgs = malloc(sizeof(HTC_HTTP_SERVER_ARGS));
     
     if (!(*programArgs)) {
         fprintf(stderr, "Error alocating resources");
         exit(-1);
     }
 
-    (*programArgs)->host = CTP_DEFAULT_HTTP_SERVER_HOST;
-    (*programArgs)->path = CTP_DEFAULT_HTTP_SERVER_PATH;
-    (*programArgs)->port = CTP_DEFAULT_HTTP_SERVER_PORT;
-    (*programArgs)->ipv6 = CTP_DEFAULT_HTTP_SERVER_IPV6;
+    (*programArgs)->host = HTC_DEFAULT_HTTP_SERVER_HOST;
+    (*programArgs)->path = HTC_DEFAULT_HTTP_SERVER_PATH;
+    (*programArgs)->port = HTC_DEFAULT_HTTP_SERVER_PORT;
+    (*programArgs)->ipv6 = HTC_DEFAULT_HTTP_SERVER_IPV6;
 
     while ((opt = getopt_long(argc, argv,
                               "hp:P:",
@@ -44,6 +44,7 @@ void ctp_parse_args(int argc, char **argv, CTP_HTTP_SERVER_ARGS **programArgs) {
                    "-P path\n"
                    "-host host\n"
                    "-ipv6 sets to ipv6\n");
+                exit(0);
                 break;
 
             case 'p':

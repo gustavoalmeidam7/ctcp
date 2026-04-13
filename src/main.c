@@ -1,20 +1,20 @@
-#include "ctp_arg_parser.h"
-#include "ctp_program_args.h"
-#include "http/ctp_http.h"
-#include "ctp_server.h"
+#include "htc_arg_parser.h"
+#include "htc_program_args.h"
+#include "http/htc_http.h"
+#include "http/htc_http_server.h"
 
 #include <stdio.h>
 
-extern int CTP_ERRORNO;
+extern int HTC_ERRORNO;
 
 int main(int argc, char **argv) {
-  PCTP_SERVER server;
+  HTC_SERVER *server;
 
-   CTP_HTTP_SERVER_ARGS *args;
+  HTC_HTTP_SERVER_ARGS *args;
 
-  ctp_parse_args(argc, argv, &args);
+  htc_parse_args(argc, argv, &args);
 
-  server = create_server(args->ipv6, args->host, args->port);
+  server = htc_new_http_server(args->ipv6, args->host, args->port);
 
   if (!server) {
     exit(-1);
@@ -26,10 +26,10 @@ int main(int argc, char **argv) {
   }
 
   while(1) {
-    ctp_listen_requests(server);
+    htc_listen_requests(server);
   }
   
-  close(server->socketfd);
+  htc_close_server(server);
 
   return 0;
 }

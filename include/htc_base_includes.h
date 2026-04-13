@@ -1,5 +1,5 @@
-#ifndef CTP_BASE_INCLUDE_H_
-#define CTP_BASE_INCLUDE_H_
+#ifndef HTC_BASE_INCLUDE_H_
+#define HTC_BASE_INCLUDE_H_
 
 #include <string.h>
 #include <stdbool.h>

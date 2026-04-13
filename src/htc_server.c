@@ -1,34 +1,34 @@
-#include "ctp_server.h"
+#include "http/htc_http_server.h"
 #include <netinet/in.h>
 
-int CTP_ERRORNO = 0;
+int HTC_ERRORNO = 0;
 
 static void handle_error(unsigned short int error_code, const char *log_statment) {
-  CTP_ERRORNO= error_code;
+  HTC_ERRORNO= error_code;
   // Change to a log proper log function
   fprintf(stderr, "%s", log_statment);
 }
 
-CTP_SERVER *create_server(bool ipv6, char *address, int port){
-  CTP_SERVER *serverfd;
+HTC_SERVER *htc_new_http_server(bool ipv6, char *address, int port){
+  HTC_SERVER *serverfd;
 
   if (ipv6) {
-    #define CTP_IPV6
+    #define HTC_IPV6
   }
   
-  #ifdef CTP_IPV6
+  #ifdef HTC_IPV6
   struct sockaddr_in6 *servaddr;
-  #define CTP_SOCKADDR sockaddr_in6
+  #define HTC_SOCKADDR sockaddr_in6
   #else
   struct sockaddr_in *servaddr;
-  #define CTP_SOCKADDR sockaddr_in
+  #define HTC_SOCKADDR sockaddr_in
   #endif
   
   socklen_t servaddrlen;
   int opt = 1;
 
-  serverfd = malloc(sizeof(CTP_SERVER));
-  servaddr = (struct CTP_SOCKADDR*) malloc(sizeof(struct CTP_SOCKADDR));
+  serverfd = malloc(sizeof(HTC_SERVER));
+  servaddr = (struct HTC_SOCKADDR*) malloc(sizeof(struct HTC_SOCKADDR));
   servaddrlen = sizeof(struct sockaddr_in);
 
   bool isServerInitialized = serverfd && servaddr;
@@ -47,7 +47,7 @@ CTP_SERVER *create_server(bool ipv6, char *address, int port){
   serverfd->type        = SOCK_STREAM;
   serverfd->servaddrlen = servaddrlen;
   
-  #ifdef CTP_IPV6
+  #ifdef HTC_IPV6
     serverfd->servaddr.ipv6 = servaddr;
   #else
     serverfd->servaddr.ipv4 = servaddr;
@@ -59,9 +59,9 @@ CTP_SERVER *create_server(bool ipv6, char *address, int port){
     serverfd->protocol
   );
 
-  memset(servaddr, 0, sizeof(struct CTP_SOCKADDR));
+  memset(servaddr, 0, sizeof(struct HTC_SOCKADDR));
 
-  #ifdef CTP_IPV6
+  #ifdef HTC_IPV6
   inet_pton(serverfd->domain, address, &(servaddr->sin6_addr));
   servaddr->sin6_port        = htons(port);
   servaddr->sin6_family      = serverfd->domain;
@@ -73,7 +73,7 @@ CTP_SERVER *create_server(bool ipv6, char *address, int port){
   
   bool isSocketWorking = setsockopt(serverfd->socketfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == 0;
 
-  bool isBinded = bind(serverfd->socketfd,(struct sockaddr *) servaddr, sizeof(struct CTP_SOCKADDR)) == 0;
+  bool isBinded = bind(serverfd->socketfd,(struct sockaddr *) servaddr, sizeof(struct HTC_SOCKADDR)) == 0;
   
   if(!isSocketWorking && !isBinded) {
       handle_error(3, "Error binding socket\n");
@@ -81,5 +81,9 @@ CTP_SERVER *create_server(bool ipv6, char *address, int port){
   }
 
   return serverfd;
+}
+
+void htc_close_server(HTC_SERVER *server) {
+  close(server->socketfd);
 }
 
