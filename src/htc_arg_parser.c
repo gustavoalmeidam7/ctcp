@@ -42,8 +42,8 @@ void htc_parse_args(int argc, char **argv, HTC_HTTP_SERVER_ARGS **programArgs) {
                 printf(
                    "-p port\n"
                    "-P path\n"
-                   "-host host\n"
-                   "-ipv6 sets to ipv6\n");
+                   "--host host\n"
+                   "--ipv6 sets to ipv6\n");
                 exit(0);
                 break;
 
