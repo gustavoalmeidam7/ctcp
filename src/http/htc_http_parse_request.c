@@ -16,6 +16,7 @@ int parse_mrp(HTC_HTTP_REQUEST *rq, char *request) {
   char *protocol = strtok_r(restMrp, "\r\n", &restMrp);
 
   if (!method || !route || !protocol) {
+    free(mrpBfr);
     return -1;
   }
 
