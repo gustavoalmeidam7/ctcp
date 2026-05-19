@@ -1,5 +1,5 @@
-#include "htc_arg_parser.h"
-#include "htc_program_args.h"
+#include "core/htc_arg_parser.h"
+#include "core/htc_program_args.h"
 
 void htc_parse_args(int argc, char **argv, HTC_HTTP_SERVER_ARGS **programArgs) {
     int opt;

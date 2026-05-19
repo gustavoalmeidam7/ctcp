@@ -1,7 +1,7 @@
 #ifndef _HTC_HTTP_H_
 #define _HTC_HTTP_H_
 
-#include "htc_base_includes.h"
+#include "core/htc_base_includes.h"
 #include "http/htc_http_errornos.h"
 #include "http/htc_http_server.h"
 

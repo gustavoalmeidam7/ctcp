@@ -1,5 +1,5 @@
-#include "htc_arg_parser.h"
-#include "htc_program_args.h"
+#include "core/htc_arg_parser.h"
+#include "core/htc_program_args.h"
 #include "http/htc_http.h"
 #include "http/htc_http_server.h"
 

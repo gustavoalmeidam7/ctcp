@@ -15,5 +15,5 @@ file(GLOB_RECURSE _src
 add_executable(HTTPC ${_src})
 
 target_include_directories(HTTPC PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/src
 )
